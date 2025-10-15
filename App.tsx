@@ -1,35 +1,31 @@
-import React from 'react';
-import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import MapScreen from "./src/screens/MapScreen";
+import EventCreateScreen from "./src/screens/EventCreateScreen";
 
-import {
-    useFonts,
-    Nunito_400Regular,
-    Nunito_600SemiBold,
-    Nunito_700Bold,
-    Nunito_800ExtraBold,
-} from '@expo-google-fonts/nunito';
+export type RootStackParamList = {
+  Map: undefined;
+  CreateEvent: undefined;
+};
 
-import AppStack from './src/routes/AppStack';
-import { StatusBar } from 'expo-status-bar';
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
-    const [fontsLoaded] = useFonts({
-        Nunito_400Regular,
-        Nunito_600SemiBold,
-        Nunito_700Bold,
-        Nunito_800ExtraBold,
-    });
-
-    if (!fontsLoaded) {
-        return null;
-    } else {
-        return (
-            <>
-                <StatusBar animated translucent style="dark" />
-                <ActionSheetProvider>
-                    <AppStack />
-                </ActionSheetProvider>
-            </>
-        );
-    }
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: true }}>
+        <Stack.Screen
+          name="Map"
+          component={MapScreen}
+          options={{ title: "Events Map" }}
+        />
+        <Stack.Screen
+          name="CreateEvent"
+          component={EventCreateScreen}
+          options={{ title: "New Event" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
